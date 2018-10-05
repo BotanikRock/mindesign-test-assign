@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Config;
+
 use App\Category;
 use App\Product;
 
@@ -16,18 +19,20 @@ class CatalogController extends Controller
      */
     public function index(Request $request) {
         $categories = Category::getOnesWithoutParent();
+        $products = Product::getMostPopular(Config::get('constants.mostPopularAmmount'));
 
         return view('catalog', [
             'pageTitle' => buildTitle('Главная'),
-            'categories' => $categories
+            'categories' => $categories,
+            'products' => $products
         ]);
     }
 
     public function category(Request $request) {
         $category = Category::getBySlug($request->categorySlug);
-        $categoriesToShow = $category->childrenCategories();
 
-        $products = $category ? $category->products() : collect([]);
+        $categoriesToShow = $category->childrenCategories();
+        $products = $category->products();
 
         return view('catalog', [
             'pageTitle' => buildTitle($category->title),

@@ -21,10 +21,9 @@ class DBSeeder
         }, $data);
 
         $entriesID = Product::all()
-                    ->map(function ($product) {
-                        print_r($product);
-                        return $product->id;
-                    })->toArray();
+            ->map(function ($product) {
+                return $product->id;
+            })->toArray();
 
         $productsForRemoving = array_diff($newProductsID, $entriesID);
 

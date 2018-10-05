@@ -21,7 +21,7 @@ class Category extends Model
     }
 
     public static function getBySlug($parentSlug) {
-        return self::getBySlugQuery($parentSlug)->first();
+        return self::getBySlugQuery($parentSlug)->firstOrFail();
     }
 
     public static function getOnesWithoutParent() {
